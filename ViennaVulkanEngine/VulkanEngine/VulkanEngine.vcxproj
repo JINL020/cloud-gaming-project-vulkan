@@ -178,6 +178,7 @@
     <ClInclude Include="CLShape.h" />
     <ClInclude Include="VEEventListenerNuklear.h" />
     <ClInclude Include="VEEventListenerNuklearDebug.h" />
+    <ClInclude Include="VEEventListenerScreenshot.h" />
     <ClInclude Include="VEMaterial.h" />
     <ClInclude Include="VESubrenderFW.h" />
     <ClInclude Include="VESubrenderFW_Nuklear.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="..\external\threadpool\ThreadPool.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CLIntersect.cpp" />
+    <ClCompile Include="VEEventListenerScreenshot.cpp" />
     <ClCompile Include="VHFunctions.cpp" />
     <ClCompile Include="VEDocumentation.cpp" />
     <ClCompile Include="VEEngine.cpp" />

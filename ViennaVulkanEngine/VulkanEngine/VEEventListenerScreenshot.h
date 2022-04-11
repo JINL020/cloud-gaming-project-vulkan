@@ -6,13 +6,13 @@
 #ifndef VEEVENTLISTENERSCREENSHOT_H
 #define VEEVENTLISTENERSCREENSHOT_H
 
-	/**
-	*
-	* \brief An event listener for screenshots
-	*
-	* Dumps a new PNG file after the frame has been renderered, mostly at 5 frames per second
-	*
-	*/
+/**
+*
+* \brief An event listener for screenshots
+*
+* Dumps a new PNG file after the frame has been renderered, mostly at 5 frames per second
+*
+*/
 namespace ve {
 	class VEEventListenerScreenshot : public VEEventListener {
 	private:
