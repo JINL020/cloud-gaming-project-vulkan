@@ -16,6 +16,7 @@
 #include "VEEventListenerGLFW.h"
 #include "VEEventListenerNuklear.h"
 #include "VEEventListenerNuklearDebug.h"
+#include "VEEventListenerScreenshot.h"
 #include "VEWindow.h"
 #include "VEWindowGLFW.h"
 #include "VEEngine.h"
