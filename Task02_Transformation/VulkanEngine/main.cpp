@@ -139,7 +139,7 @@ namespace ve {
 
 			registerEventListener(new EventListenerCollision("Collision"), { veEvent::VE_EVENT_FRAME_STARTED });
 			registerEventListener(new EventListenerGUI("GUI"), { veEvent::VE_EVENT_DRAW_OVERLAY});
-			registerEventListener(new VEEventListenerScreenshot("Screenshot"), { veEvent::VE_EVENT_FRAME_ENDED });
+			//registerEventListener(new VEEventListenerScreenshot("Screenshot"), { veEvent::VE_EVENT_FRAME_ENDED });
 		};
 		
 
@@ -174,9 +174,14 @@ namespace ve {
 			eParent->addChild(e1);
 
 			VESceneNode* pacman;
-			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("Pacman", "media/models/standard", "sphere.obj", 0, pScene));
-
-
+			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("Pacman", "media/models/pacman", "pacman.obj", 0, pScene));
+			pacman->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 2.0f, 0.0f)));
+			
+			/*
+			VESceneNode* myCube;
+			VECHECKPOINTER(myCube = getSceneManagerPointer()->loadModel("MyCube", "media/models/cube", "cube.obj", 0, pScene));
+			myCube->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 2.0f, 0.0f)));
+				*/
 			m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
 		};
 	};
