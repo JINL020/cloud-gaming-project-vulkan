@@ -91,7 +91,7 @@ namespace ve {
 			glm::vec3 positionPacman = getSceneManagerPointer()->getSceneNode("Pacman")->getPosition();
 
 			float distance = glm::length(positionCube - positionPacman);
-			std::cout << distance << std::endl;
+			//std::cout << distance << std::endl;
 			if (distance < 2) {
 				g_score++;
 				getEnginePointer()->m_irrklangEngine->play2D("media/sounds/explosion.wav", false);
@@ -179,7 +179,8 @@ namespace ve {
 
 			VESceneNode* pacman;
 			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("Pacman", "media/models/pacman", "pacman.obj", 0, pacmanParent));
-			pacmanParent->setPosition(glm::vec3(0.0f, 1.5f, 3.0f));
+			pacman->setPosition(glm::vec3(0.0f, 1.5f, 6.0f));
+
 			pacmanParent->addChild(pacman);
 
 				
