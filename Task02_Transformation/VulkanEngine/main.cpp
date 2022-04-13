@@ -166,22 +166,22 @@ namespace ve {
 			VEEntity *pE4;
 			VECHECKPOINTER( pE4 = (VEEntity*)getSceneManagerPointer()->getSceneNode("The Plane/plane_t_n_s.obj/plane/Entity_0") );
 			pE4->setParam( glm::vec4(1000.0f, 1000.0f, 0.0f, 0.0f) );
-			
-			VESceneNode *e1,*eParent;
+
+			VESceneNode* e1, * eParent;
 			eParent = getSceneManagerPointer()->createSceneNode("The Cube Parent", pScene, glm::mat4(1.0));
 			VECHECKPOINTER(e1 = getSceneManagerPointer()->loadModel("The Cube0", "media/models/test/crate0", "cube.obj"));
 			eParent->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(-10.0f, 1.0f, 10.0f)));
 			eParent->addChild(e1);
 
+			VESceneNode* pacmanParent;
+			pacmanParent = getSceneManagerPointer()->createSceneNode("Pacman Parent", pScene, glm::mat4(1.0));
+
 			VESceneNode* pacman;
-			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("Pacman", "media/models/pacman", "pacman.obj", 0, pScene));
-			pacman->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 2.0f, 0.0f)));
-			
-			/*
-			VESceneNode* myCube;
-			VECHECKPOINTER(myCube = getSceneManagerPointer()->loadModel("MyCube", "media/models/cube", "cube.obj", 0, pScene));
-			myCube->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 2.0f, 0.0f)));
-				*/
+			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("pacman", "media/models/pacman", "pacman.obj", 0, pacmanParent));
+			pacmanParent->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
+			pacmanParent->addChild(pacman);
+
+				
 			m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
 		};
 	};
