@@ -17,7 +17,7 @@ namespace ve {
 	* \returns true to consume the event
 	*/
 	bool VEEventListenerGLFW::onKeyboard(veEvent event) {
-		if (event.idata1 == GLFW_KEY_ESCAPE ) {				//ESC pressed - end the engine
+		if (event.idata1 == GLFW_KEY_ESCAPE) {				//ESC pressed - end the engine
 			getEnginePointer()->end();
 			return true;
 		}
@@ -33,70 +33,108 @@ namespace ve {
 			return false;
 		}
 
+		if (event.idata1 == GLFW_KEY_C && event.idata3 == GLFW_PRESS) {
+			selectedPacman = !selectedPacman;
+		}
+
 		///create some default constants for the actions 
 		glm::vec4 translate = glm::vec4(0.0, 0.0, 0.0, 1.0);	//total translation
 		glm::vec4 rot4 = glm::vec4(1.0);						//total rotation around the axes, is 4d !
 		float angle = 0.0;
 		float rotSpeed = 2.0;
 
-		VECamera *pCamera = getSceneManagerPointer()->getCamera();
-		VESceneNode *pParent = pCamera->getParent();
-
-		switch (event.idata1) {
-		case GLFW_KEY_A:
-			translate = pCamera->getTransform() * glm::vec4(-1.0, 0.0, 0.0, 1.0);	//left
-			break;
-		case GLFW_KEY_D:
-			translate = pCamera->getTransform() * glm::vec4(1.0, 0.0, 0.0, 1.0); //right
-			break;
-		case GLFW_KEY_W:
-			translate = pCamera->getTransform() * glm::vec4(0.0, 0.0, 1.0, 1.0); //forward
-			translate.y = 0.0f;
-			break;
-		case GLFW_KEY_S:
-			translate = pCamera->getTransform() * glm::vec4(0.0, 0.0, -1.0, 1.0); //back
-			translate.y = 0.0f;
-			break;
-		case GLFW_KEY_Q:
-			translate = glm::vec4(0.0, -1.0, 0.0, 1.0); //down
-			break;
-		case GLFW_KEY_E:
-			translate = glm::vec4(0.0, 1.0, 0.0, 1.0);  //up
-			break;
-		case GLFW_KEY_LEFT:							//yaw rotation is already in parent space
-			angle = rotSpeed * (float)event.dt * -1.0f;
-			rot4 = glm::vec4(0.0, 1.0, 0.0, 1.0);
-			break;
-		case GLFW_KEY_RIGHT:						//yaw rotation is already in parent space
-			angle = rotSpeed * (float)event.dt * 1.0f;
-			rot4 = glm::vec4(0.0, 1.0, 0.0, 1.0);
-			break;
-		case GLFW_KEY_UP:							//pitch rotation is in cam/local space
-			angle = rotSpeed * (float)event.dt * 1.0f;			//pitch angle
-			rot4 = pCamera->getTransform() * glm::vec4(1.0, 0.0, 0.0, 1.0); //x axis from local to parent space!
-			break;
-		case GLFW_KEY_DOWN:							//pitch rotation is in cam/local space
-			angle = rotSpeed * (float)event.dt * -1.0f;		//pitch angle
-			rot4 = pCamera->getTransform() * glm::vec4(1.0, 0.0, 0.0, 1.0); //x axis from local to parent space!
-			break;
-
-		default:
-			return false;
-		};
+		VECamera* pCamera = getSceneManagerPointer()->getCamera();
+		VESceneNode* pParent = pCamera->getParent();
+		VESceneNode* pPacman = getSceneManagerPointer()->getSceneNode("Pacman Parent")->getChildrenList().at(0);
 
 		if (pParent == nullptr) {
 			pParent = pCamera;
 		}
 
-		///add the new translation vector to the previous one
-		float speed = 6.0f;
-		glm::vec3 trans = speed * glm::vec3(translate.x, translate.y, translate.z);
-		pParent->multiplyTransform( glm::translate(glm::mat4(1.0f), (float)event.dt * trans) );
 
-		///combination of yaw and pitch, both wrt to parent space
-		glm::vec3  rot3 = glm::vec3(rot4.x, rot4.y, rot4.z);
-		glm::mat4  rotate = glm::rotate(glm::mat4(1.0), angle, rot3);
-		pCamera->multiplyTransform( rotate );
+		if (selectedPacman) {
+			switch (event.idata1) {
+			case GLFW_KEY_LEFT:							
+				angle = rotSpeed * (float)event.dt * -1.0f;
+				rot4 = glm::vec4(0, 1, 0, 1);;
+				break;
+			case GLFW_KEY_RIGHT:					
+				angle = rotSpeed * (float)event.dt * 1.0f;
+				rot4 = glm::vec4(0, 1, 0, 1);;
+				break;
+			case GLFW_KEY_UP:							
+				translate = glm::vec4(0.0, 0.0, -1.0, 1.0);
+				break;
+			case GLFW_KEY_DOWN:							
+				translate = glm::vec4(0.0, 0.0, 1.0, 1.0); 
+				break;
+			default:
+				return false;
+			};
+
+			glm::mat4 pacmanRot = pPacman->getRotation();
+			glm::vec3 pacmanPos = pPacman->getPosition();
+
+			glm::mat4  rotate = glm::rotate(glm::mat4(1.0), angle, glm::vec3(rot4.x, rot4.y, rot4.z));
+			pPacman->setTransform(rotate* pacmanRot);
+
+			float speed = 6.0f;
+			glm::vec4 trans = (float)event.dt * pacmanRot * speed * translate;
+			pPacman->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(trans.x,trans.y,trans.z) + pacmanPos));
+
+		}
+		else {
+			switch (event.idata1) {
+			case GLFW_KEY_A:
+				translate = pCamera->getTransform() * glm::vec4(-1.0, 0.0, 0.0, 1.0);	//left
+				break;
+			case GLFW_KEY_D:
+				translate = pCamera->getTransform() * glm::vec4(1.0, 0.0, 0.0, 1.0); //right
+				break;
+			case GLFW_KEY_W:
+				translate = pCamera->getTransform() * glm::vec4(0.0, 0.0, 1.0, 1.0); //forward
+				translate.y = 0.0f;
+				break;
+			case GLFW_KEY_S:
+				translate = pCamera->getTransform() * glm::vec4(0.0, 0.0, -1.0, 1.0); //back
+				translate.y = 0.0f;
+				break;
+			case GLFW_KEY_Q:
+				translate = glm::vec4(0.0, -1.0, 0.0, 1.0); //down
+				break;
+			case GLFW_KEY_E:
+				translate = glm::vec4(0.0, 1.0, 0.0, 1.0);  //up
+				break;
+			case GLFW_KEY_LEFT:							//yaw rotation is already in parent space
+				angle = rotSpeed * (float)event.dt * -1.0f;
+				rot4 = glm::vec4(0.0, 1.0, 0.0, 1.0);
+				break;
+			case GLFW_KEY_RIGHT:						//yaw rotation is already in parent space
+				angle = rotSpeed * (float)event.dt * 1.0f;
+				rot4 = glm::vec4(0.0, 1.0, 0.0, 1.0);
+				break;
+			case GLFW_KEY_UP:							//pitch rotation is in cam/local space
+				angle = rotSpeed * (float)event.dt * 1.0f;			//pitch angle
+				rot4 = pCamera->getTransform() * glm::vec4(1.0, 0.0, 0.0, 1.0); //x axis from local to parent space!
+				break;
+			case GLFW_KEY_DOWN:							//pitch rotation is in cam/local space
+				angle = rotSpeed * (float)event.dt * -1.0f;		//pitch angle
+				rot4 = pCamera->getTransform() * glm::vec4(1.0, 0.0, 0.0, 1.0); //x axis from local to parent space
+				break;
+			default:
+				return false;
+			};
+
+			///combination of yaw and pitch, both wrt to parent space
+			glm::vec3  rot3 = glm::vec3(rot4.x, rot4.y, rot4.z);
+			glm::mat4  rotate = glm::rotate(glm::mat4(1.0), angle, rot3);
+			pCamera->multiplyTransform(rotate);
+
+			///add the new translation vector to the previous one
+			float speed = 6.0f;
+			glm::vec3 trans = speed * glm::vec3(translate.x, translate.y, translate.z);
+			pParent->multiplyTransform(glm::translate(glm::mat4(1.0f), (float)event.dt * trans));
+		}
 
 		return true;
 	}

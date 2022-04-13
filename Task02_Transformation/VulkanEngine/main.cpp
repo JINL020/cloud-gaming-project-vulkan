@@ -14,7 +14,7 @@ namespace ve {
 
 
 	uint32_t g_score = 0;				//derzeitiger Punktestand
-	double g_time = 30.0;				//zeit die noch übrig ist
+	double g_time = 90.0;				//zeit die noch übrig ist
 	bool g_gameLost = false;			//true... das Spiel wurde verloren
 	bool g_restart = false;			//true...das Spiel soll neu gestartet werden
 
@@ -88,10 +88,11 @@ namespace ve {
 			if (g_gameLost) return;
 
 			glm::vec3 positionCube   = getSceneManagerPointer()->getSceneNode("The Cube Parent")->getPosition();
-			glm::vec3 positionCamera = getSceneManagerPointer()->getSceneNode("StandardCameraParent")->getPosition();
+			glm::vec3 positionPacman = getSceneManagerPointer()->getSceneNode("Pacman")->getPosition();
 
-			float distance = glm::length(positionCube - positionCamera);
-			if (distance < 1) {
+			float distance = glm::length(positionCube - positionPacman);
+			std::cout << distance << std::endl;
+			if (distance < 2) {
 				g_score++;
 				getEnginePointer()->m_irrklangEngine->play2D("media/sounds/explosion.wav", false);
 				if (g_score % 10 == 0) {
@@ -177,8 +178,8 @@ namespace ve {
 			pacmanParent = getSceneManagerPointer()->createSceneNode("Pacman Parent", pScene, glm::mat4(1.0));
 
 			VESceneNode* pacman;
-			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("pacman", "media/models/pacman", "pacman.obj", 0, pacmanParent));
-			pacmanParent->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
+			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("Pacman", "media/models/pacman", "pacman.obj", 0, pacmanParent));
+			pacmanParent->setPosition(glm::vec3(0.0f, 1.5f, 3.0f));
 			pacmanParent->addChild(pacman);
 
 				

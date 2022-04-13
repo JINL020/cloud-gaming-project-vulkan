@@ -22,6 +22,7 @@ namespace ve {
 	*
 	*/
 	class VEEventListenerGLFW : public VEEventListener {
+		bool selectedPacman = false;
 
 	protected:
 		bool  m_usePrevCursorPosition = false;			///<Can I use the previous cursor position for moving the camera?
