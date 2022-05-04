@@ -81,7 +81,6 @@ namespace ve {
 			float speed = 6.0f;
 			glm::vec4 trans = (float)event.dt * pacmanRot * speed * translate;
 			pPacman->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(trans.x,trans.y,trans.z) + pacmanPos));
-
 		}
 		else {
 			switch (event.idata1) {
