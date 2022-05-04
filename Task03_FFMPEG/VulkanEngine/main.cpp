@@ -197,11 +197,19 @@ using namespace ve;
 int main() {
 	bool debug = true;
 
+	//const char* filename = "task03_ffmpeg";
+	//FILE* file = fopen(filename, "wb");
+
 	MyVulkanEngine mve(debug);	//enable or disable debugging (=callback, validation layers)
 
 	mve.initEngine();
 	mve.loadLevel(1);
 	mve.run();
+
+	// add sequence end code to have a real MPEG file
+	//uint8_t endcode[] = { 0, 0, 1, 0xb7 };
+	//fwrite(endcode, 1, sizeof(endcode), file);
+	//fclose(file);
 
 	return 0;
 }
