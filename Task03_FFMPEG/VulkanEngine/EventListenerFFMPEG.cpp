@@ -67,7 +67,7 @@ namespace ve {
 				fprintf(stderr, "Could not allocate video codec context\n");
 				exit(2);
 			}
-			context->bit_rate = 400000;
+			context->bit_rate = 40000;
 			// resolution must be a multiple of two
 			context->width = extent.width;
 			context->height = extent.height;
@@ -102,6 +102,7 @@ namespace ve {
 			frame->format = context->pix_fmt;
 			frame->width = context->width;
 			frame->height = context->height;
+			//frame->pict_type = AV_PICTURE_TYPE_NONE;
 
 
 			// Allocate new buffer(s) for audio or video data.
