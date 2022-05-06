@@ -1,5 +1,5 @@
 /**
-    @author Jin-Jin Lee
+	@author Jin-Jin Lee
 */
 
 #include "VEInclude.h"
@@ -8,7 +8,7 @@ static void encode(AVCodecContext* enc_ctx, AVFrame* frame, AVPacket* pkt, FILE*
 {
 	int ret;
 
-	// send the frame to the encoder */
+	// send the frame to the encoder
 	ret = avcodec_send_frame(enc_ctx, frame);
 	if (ret < 0) {
 		fprintf(stderr, "error sending a frame for encoding\n");
@@ -32,7 +32,6 @@ static void encode(AVCodecContext* enc_ctx, AVFrame* frame, AVPacket* pkt, FILE*
 
 namespace ve {
 
-
 	void EventListenerFFMPEG::onFrameEnded(veEvent event) {
 
 		timePassed += event.dt;
@@ -52,124 +51,102 @@ namespace ve {
 				VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
 				dataImage, extent.width, extent.height, imageSize);
 
-			//////////////////////////////////////////////////////////
+			//-----------------------------BEGIN-----------------------------------//
 			avcodec_register_all();
 
-			const AVCodec* codec = avcodec_find_encoder(AV_CODEC_ID_MPEG4);
+			// Find a registered encoder with a matching codec ID.
+			const AVCodec* codec = avcodec_find_encoder(AV_CODEC_ID_MPEG2VIDEO);
 			if (!codec) {
 				fprintf(stderr, "codec not found\n");
 				exit(1);
 			}
 
-			AVCodecContext* c = avcodec_alloc_context3(codec);
-			if (!c) {
+			// Allocate an AVCodecContext and set its fields to default values.
+			AVCodecContext* context = avcodec_alloc_context3(codec);
+			if (!context) {
 				fprintf(stderr, "Could not allocate video codec context\n");
 				exit(2);
 			}
-			c->bit_rate = 4000;
-
+			context->bit_rate = 400000;
 			// resolution must be a multiple of two
-			c->width = extent.width;
-			c->height = extent.height;
+			context->width = extent.width;
+			context->height = extent.height;
 			// frames per second
-			c->time_base.num = 1;
-			c->time_base.den = 25;
-			c->framerate.num = 25;
-			c->framerate.den = 1;
+			context->time_base.num = 1;
+			context->time_base.den = 25;
+			context->framerate.num = 25;
+			context->framerate.den = 1;
+			context->gop_size = 10; // emit one intra frame every ten frames
+			context->max_b_frames = 1;
+			context->pix_fmt = AV_PIX_FMT_YUV420P;
 
-			c->gop_size = 10; // emit one intra frame every ten frames
-			c->max_b_frames = 1;
-			c->pix_fmt = AV_PIX_FMT_YUV420P;
-
-			AVFrame* frame = av_frame_alloc();
-			if (!frame) {
-				fprintf(stderr, "Could not allocate video frame\n");
-				exit(5);
+			// Initialize the AVCodecContext to use the given AVCodec (open it)
+			if (avcodec_open2(context, codec, NULL) < 0) {
+				fprintf(stderr, "could not open codec\n");
+				exit(1);
 			}
-			frame->format = c->pix_fmt;
-			frame->width = c->width;
-			frame->height = c->height;
 
+			// Allocate an AVPacket and set its fields to default values.
 			AVPacket* pkt = av_packet_alloc();
 			if (!pkt) {
 				fprintf(stderr, "Cannot alloc packet\n");
 				exit(1);
 			}
 
-			// open it
-			if (avcodec_open2(c, codec, NULL) < 0) {
-				fprintf(stderr, "could not open codec\n");
-				exit(1);
+			// Allocate an AVFrame and set its fields to default values.
+			AVFrame* frame = av_frame_alloc();
+			if (!frame) {
+				fprintf(stderr, "Could not allocate video frame\n");
+				exit(5);
 			}
+			frame->format = context->pix_fmt;
+			frame->width = context->width;
+			frame->height = context->height;
 
-			const char* filename = "media/frames/task03_video.mpg";
-			FILE* file = fopen(filename, "wb");
-			if (!file) {
-				fprintf(stderr, "could not open %s\n", filename);
-				exit(1);
-			}
 
-			int ret = av_frame_get_buffer(frame, 32);
-			if (ret < 0) {
+			// Allocate new buffer(s) for audio or video data.
+			if (av_frame_get_buffer(frame, 32) < 0) {
 				fprintf(stderr, "could not alloc the frame data\n");
 				exit(1);
 			}
 
-			SwsContext* ctx = sws_getContext(c->width, c->height,
-				AV_PIX_FMT_RGBA, c->width, c->height,
-				AV_PIX_FMT_YUV420P, 0, 0, 0, 0);
-
-			uint8_t* inData[1] = { dataImage }; // RGBA32 have one plane
-			int inLinesize[1] = { 4 * c->width }; // RGBA stride
-			sws_scale(ctx, inData, inLinesize, 0, c->height, frame->data, frame->linesize);
-
+			SwsContext* ctx = sws_getContext(context->width, context->height, AV_PIX_FMT_RGBA, context->width, context->height, AV_PIX_FMT_YUV420P, 0, 0, 0, 0);
 
 			// encode 1 second of video
 			for (int i = 0; i < 25; i++) {
 				fflush(stdout);
 
 				// make sure the frame data is writable
-				ret = av_frame_make_writable(frame);
-				if (ret < 0) {
+				if (av_frame_make_writable(frame) < 0) {
 					fprintf(stderr, "Cannot make frame writeable\n");
 					exit(1);
 				}
 
-				for (int y = 0; y < c->height; y++) {
-					for (int x = 0; x < c->width; x++) {
-						frame->data[0][y * frame->linesize[0] + x] = x + y + i * 3;
-					}
-				}
-
-				// Cb and Cr
-				for (int y = 0; y < c->height / 2; y++) {
-					for (int x = 0; x < c->width / 2; x++) {
-						frame->data[1][y * frame->linesize[1] + x] = 128 + y + i * 2;
-						frame->data[2][y * frame->linesize[2] + x] = 64 + x + i * 5;
-					}
-				}
+				uint8_t* inData[1] = { dataImage }; // RGBA32 have one plane
+				int inLinesize[1] = { 4 * context->width }; // RGBA stride
+				sws_scale(ctx, inData, inLinesize, 0, context->height, frame->data, frame->linesize);
 
 				frame->pts = i;
 
-				// encode the image
-				encode(c, frame, pkt, file);
+				// Encode the image.
+				encode(context, frame, pkt, file);
 			}
 
-			encode(c, NULL, pkt, file);
-				
-			// add sequence end code to have a real MPEG file
-			uint8_t endcode[] = { 0, 0, 1, 0xb7 };
-			fwrite(endcode, 1, sizeof(endcode), file);
-			fclose(file);
+			// Flush the encoder.
+			encode(context, NULL, pkt, file);
 
-			avcodec_free_context(&c);
+			// Free all the stuff.
+			avcodec_free_context(&context);
 			av_frame_free(&frame);
 			av_packet_free(&pkt);
-			//////////////////////////////////////////////////////////////
+
+			printf("\n");
+			//-----------------------------END-----------------------------------//
+
 			delete[] dataImage;
 
 			timePassed = 0;
-		
+
 		}
 	}
 }

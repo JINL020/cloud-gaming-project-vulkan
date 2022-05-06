@@ -95,18 +95,7 @@ int main( int argc, char**argv) {
   if (ret < 0) {
     fprintf(stderr, "could not alloc the frame data\n");
     exit(1);
-  }
-
-
-
-
-  //////////////////////
-   uint8_t *rgba32Data = new uint8_t[4*c->width*c->height];
-    
-    SwsContext * ctx = sws_getContext(c->width, c->height,
-                                      AV_PIX_FMT_RGBA, c->width, c->height,
-                                      AV_PIX_FMT_YUV420P, 0, 0, 0, 0);
-///////////////////////////////////////////////////////////////////////////////
+  } 
 
   // encode 1 second of video
   for(int i=0;i<25;i++) {
