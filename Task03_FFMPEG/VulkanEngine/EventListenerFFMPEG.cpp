@@ -67,16 +67,17 @@ namespace ve {
 				fprintf(stderr, "Could not allocate video codec context\n");
 				exit(2);
 			}
+			// Set context values.
 			context->bit_rate = 40000;
-			// resolution must be a multiple of two
+			// Resolution must be a multiple of two!
 			context->width = extent.width;
 			context->height = extent.height;
-			// frames per second
+			// Frames per second
 			context->time_base.num = 1;
-			context->time_base.den = 25;
-			context->framerate.num = 25;
+			context->time_base.den = 25; // change to 1 because no for loop anymore?
+			context->framerate.num = 25; // change to 1 because no for loop anymore?
 			context->framerate.den = 1;
-			context->gop_size = 10; // emit one intra frame every ten frames
+			context->gop_size = 10; // Emit one intra frame every ten frames.
 			context->max_b_frames = 1;
 			context->pix_fmt = AV_PIX_FMT_YUV420P;
 
@@ -102,8 +103,7 @@ namespace ve {
 			frame->format = context->pix_fmt;
 			frame->width = context->width;
 			frame->height = context->height;
-			//frame->pict_type = AV_PICTURE_TYPE_NONE;
-
+			//frame->pict_type = AV_PICTURE_TYPE_NONE; // delete it?
 
 			// Allocate new buffer(s) for audio or video data.
 			if (av_frame_get_buffer(frame, 32) < 0) {
@@ -111,27 +111,24 @@ namespace ve {
 				exit(1);
 			}
 
-			SwsContext* ctx = sws_getContext(context->width, context->height, AV_PIX_FMT_RGBA, context->width, context->height, AV_PIX_FMT_YUV420P, 0, 0, 0, 0);
-
 			// encode 1 second of video
-			for (int i = 0; i < 25; i++) {
-				fflush(stdout);
+			fflush(stdout);
 
-				// make sure the frame data is writable
-				if (av_frame_make_writable(frame) < 0) {
-					fprintf(stderr, "Cannot make frame writeable\n");
-					exit(1);
-				}
-
-				uint8_t* inData[1] = { dataImage }; // RGBA32 have one plane
-				int inLinesize[1] = { 4 * context->width }; // RGBA stride
-				sws_scale(ctx, inData, inLinesize, 0, context->height, frame->data, frame->linesize);
-
-				frame->pts = i;
-
-				// Encode the image.
-				encode(context, frame, pkt, file);
+			// Make sure the frame data is writable.
+			if (av_frame_make_writable(frame) < 0) {
+				fprintf(stderr, "Cannot make frame writeable\n");
+				exit(1);
 			}
+
+			SwsContext* ctx = sws_getContext(context->width, context->height, AV_PIX_FMT_RGBA, context->width, context->height, AV_PIX_FMT_YUV420P, 0, 0, 0, 0);
+			uint8_t* inData[1] = { dataImage }; // RGBA32 have one plane
+			int inLinesize[1] = { 4 * context->width }; // RGBA stride
+			sws_scale(ctx, inData, inLinesize, 0, context->height, frame->data, frame->linesize);
+
+			//frame->pts = i; // What to do with that?
+
+			// Encode the image.
+			encode(context, frame, pkt, file);
 
 			// Flush the encoder.
 			encode(context, NULL, pkt, file);
