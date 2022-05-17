@@ -33,6 +33,12 @@
     <Filter Include="Header Files\VHelper">
       <UniqueIdentifier>{6a52e981-61c4-42e0-aadb-431516ce8e9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UDP">
+      <UniqueIdentifier>{5c8a4c79-c89d-4e8c-bfeb-35f44854a74c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UDP">
+      <UniqueIdentifier>{d95bff18-b1d4-4eb6-8c58-1dcbcc2a9b82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VEEngine.h">
@@ -124,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="EventListenerFFMPEG.h">
       <Filter>Header Files\VEEventListener</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPSend.h">
+      <Filter>Header Files\UDP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +243,9 @@
     </ClCompile>
     <ClCompile Include="EventListenerFFMPEG.cpp">
       <Filter>Source Files\VEEventListener</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPSend.cpp">
+      <Filter>Source Files\UDP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

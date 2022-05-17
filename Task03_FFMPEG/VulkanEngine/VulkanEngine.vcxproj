@@ -179,6 +179,7 @@
     <ClInclude Include="CLInclude.h" />
     <ClInclude Include="CLShape.h" />
     <ClInclude Include="EventListenerFFMPEG.h" />
+    <ClInclude Include="UDPSend.h" />
     <ClInclude Include="VEEventListenerNuklear.h" />
     <ClInclude Include="VEEventListenerNuklearDebug.h" />
     <ClInclude Include="VEEventListenerScreenshot.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="EventListenerFFMPEG.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CLIntersect.cpp" />
+    <ClCompile Include="UDPSend.cpp" />
     <ClCompile Include="VEEventListenerScreenshot.cpp" />
     <ClCompile Include="VHFunctions.cpp" />
     <ClCompile Include="VEDocumentation.cpp" />
