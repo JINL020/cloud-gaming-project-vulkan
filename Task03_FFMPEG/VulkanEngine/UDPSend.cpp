@@ -8,12 +8,8 @@
  */
 
 
-#include "UDPSend.h"
+#include "VEInclude.h"
 
-extern "C" {
-#include <stdio.h>
-#include <time.h>
-}
 
 #define min(x,y)  ((x) <= (y) ? (x) : (y))
 #define max(x,y)  ((x) >= (y) ? (x) : (y))

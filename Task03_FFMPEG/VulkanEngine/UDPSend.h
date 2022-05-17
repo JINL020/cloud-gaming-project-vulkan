@@ -8,19 +8,10 @@
  */
 
 
-extern "C" {
-#include <stdlib.h>
-#include <unistd.h>
-#include <netdb.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <string.h>
-}
+#include "VEInclude.h"
 
-
+#ifndef UDPSend_H
+#define UDPSend_H
 
 class UDPSend {
 
@@ -35,6 +26,8 @@ public:
 	int send(char* buffer, int len);
 	void closeSock();
 };
+
+#endif
 
 
 

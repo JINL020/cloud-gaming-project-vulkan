@@ -42,6 +42,19 @@ extern "C" {
 #include "libavutil/imgutils.h"
 #include <libswscale/swscale.h>
 #include <libavutil/opt.h>
+// includes from original UDPSend.h and UDPSend.cpp
+#include "UDPSend.h"
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
 }
 
 
