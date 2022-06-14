@@ -21,6 +21,7 @@
 #include "EventListenerScreenshots.h"
 #include "EventListenerMyGUI.h"
 #include "EventListenerFFMPEG.h"
+#include "EventListenerUDP.h"
 //---------------------------------------------------------------------------//
 #include "VEWindow.h"
 #include "VEWindowGLFW.h"
@@ -52,6 +53,11 @@
 #include "VESubrenderDF_Composer.h"
 #include "VESubrenderRayTracingNV_DN.h"
 #include "VESubrenderRayTracingKHR_DN.h"
+
+//Task04-------------------Added by Me-------------------Task04//
+#include "UDPSend.h"
+//------------------------------------------------------------//
+
 
 //Task03-------------------Added by Me-------------------Task03//
 extern "C" {
