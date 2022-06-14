@@ -126,11 +126,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>D:\2022SS\2022SS_CGA\Task01_to_Task05\ViennaVulkanEngine\FFMPEG\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>irrKlang.lib;glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;glfw3.lib;assimp-vc140-mt.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\2022SS\2022SS_CGA\Task01_to_Task05\ViennaVulkanEngine\FFMPEG\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -178,6 +180,7 @@
     <ClInclude Include="CLInclude.h" />
     <ClInclude Include="CLShape.h" />
     <ClInclude Include="DescriptorSetGenerator.h" />
+    <ClInclude Include="EventListenerFFMPEG.h" />
     <ClInclude Include="EventListenerMyGUI.h" />
     <ClInclude Include="VEEnums.h" />
     <ClInclude Include="RaytracingPipelineGenerator.h" />
@@ -229,6 +232,7 @@
     <ClCompile Include="..\external\threadpool\ThreadPool.cpp" />
     <ClCompile Include="BottomLevelASGenerator.cpp" />
     <ClCompile Include="DescriptorSetGenerator.cpp" />
+    <ClCompile Include="EventListenerFFMPEG.cpp" />
     <ClCompile Include="EventListenerMyGUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CLIntersect.cpp" />

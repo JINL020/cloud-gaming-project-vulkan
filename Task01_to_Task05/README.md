@@ -10,8 +10,10 @@ Task02
 
 
 Task03
-- 
-- 
+- Added EventListenerFFPMEG.h and EventListenerFFMPEG.cpp
+- Modified main.cpp: registered new EventListenerFFMEG
+- Modified VEInclude.h: added EventListenerFFMPEG.h and extern "C"
+- Added video folder in ViennaVulkanEngine\VulkanEngine\media
 
 
 Task04
@@ -20,6 +22,6 @@ Task04
 
 Task05
 - Added EventListenerMyGUI.h and EventListenerMyGUI.cpp
-- Modified main.cpp: registered new EventListenerMyGUI adn disabled all other EventListeners
+- Modified main.cpp: registered new EventListenerMyGUI and disabled all other EventListeners
 - Modified VEInclude.h: added EventListenerMyGUI.h
 - Modified VESceneManager.h and VESceneManager.cpp: added getSceneNodes()
