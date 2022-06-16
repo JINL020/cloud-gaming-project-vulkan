@@ -1,12 +1,12 @@
 
 //Task04-------------------Added by Me-------------------Task04//
+#pragma comment(lib, "ws2_32.lib")
 
 extern "C" {
 #define NOMINMAX
 #include <winsock2.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <in6addr.h>
 #include <ws2ipdef.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -21,7 +21,6 @@ extern "C" {
 #define EVENTLISTENERUDP_H
 
 namespace ve {
-	void startWinsock();
 
 	class EventListenerUDP : public VEEventListener {
 	private:
@@ -36,6 +35,7 @@ namespace ve {
 	public:
 		EventListenerUDP(std::string name);
 		virtual ~EventListenerUDP();
+		void startWinsock();
 	};
 }
 

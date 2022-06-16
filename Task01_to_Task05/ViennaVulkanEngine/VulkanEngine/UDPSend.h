@@ -30,7 +30,6 @@ public:
 	~UDPSend() { if (sock) closeSock(); };
 	void init(char* address, int port);
 	int send(char* buffer, int len);
-	int send(uint8_t* buffer, int len);
 	void closeSock();
 };
 }

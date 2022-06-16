@@ -85,51 +85,6 @@ namespace ve {
 		return bytes;
 	}
 
-	int UDPSend::send(uint8_t* buffer, int len) {
-
-		char sendbuffer[65000];
-
-		packetnum++;
-
-		if (len > 65000) {
-			return 0;
-		}
-		//if( packetnum%100==50) return -1;		//test for packet loss
-
-		int maxpacketsize = 1400;
-
-		RTHeader_t header;
-		header.time = clock() / (double)CLOCKS_PER_SEC;
-		header.packetnum = packetnum;
-		header.fragments = len / maxpacketsize;
-		header.fragnum = 1;
-
-		int left = len - header.fragments * maxpacketsize;
-		if (left > 0) header.fragments++;
-
-		int ret, bytes = 0;
-		for (int i = 0; i < header.fragments; i++) {
-			memcpy(sendbuffer, &header, sizeof(header));
-			memcpy(sendbuffer + sizeof(header), buffer + bytes, min(maxpacketsize, len - bytes));
-
-			ret = sendto(sock, sendbuffer, min(maxpacketsize, len - bytes) + sizeof(header), 0, (const struct sockaddr*)&addr, sizeof(addr));
-
-			if (ret == -1) {
-				printf( "ret is -1; Error : %d", WSAGetLastError());
-				return ret;
-			}
-			else {
-				ret = ret - sizeof(header);
-			}
-			bytes += ret;
-			header.fragnum++;
-		}
-
-		printf("Sent data %lld (size=%d)\n", buffer, len);
-
-		return bytes;
-	}
-
 
 	void UDPSend::closeSock() {
 		closesocket(sock);

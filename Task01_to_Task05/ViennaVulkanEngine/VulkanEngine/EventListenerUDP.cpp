@@ -34,7 +34,7 @@ namespace ve {
 				exit(1);
 			}
 
-			sender.send(pkt->data, pkt->size);
+			sender.send((char*)pkt->data, pkt->size);
 
 			//printf("encoded frame %lld (size=%5d)\n", pkt->pts, pkt->size);
 			//fwrite(pkt->data, 1, pkt->size, outfile);
@@ -49,6 +49,7 @@ namespace ve {
 			fprintf(stderr, "could not open %s\n", filename);
 			exit(1);
 		}
+		startWinsock();
 
 		std::string IP = "127.0.0.1";
 		sender.init(IP.data(), 8088);
@@ -59,6 +60,19 @@ namespace ve {
 		uint8_t endcode[] = { 0, 0, 1, 0xb7 }; // byte 0, byte 1, byte 2, byte 3, StreamID
 		fwrite(endcode, 1, sizeof(endcode), file);
 		fclose(file);
+
+		WSACleanup();
+	}
+
+	void EventListenerUDP::startWinsock() {
+		printf("\nInitialising Winsock...");
+		WSADATA wsa;
+		if (WSAStartup(MAKEWORD(2, 0), &wsa) != 0) {// 2, 0 or 2,2??? 
+			printf("Failed. Error Code : %d", WSAGetLastError());
+			return;
+		}
+		printf("\nInitialised Winsock\n");
+		return;
 	}
 
 	void EventListenerUDP::onFrameEnded(veEvent event) {
