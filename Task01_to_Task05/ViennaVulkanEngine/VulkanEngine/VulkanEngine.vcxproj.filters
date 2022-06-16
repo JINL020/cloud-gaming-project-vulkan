@@ -203,6 +203,12 @@
     <ClInclude Include="EventListenerFFMPEG.h">
       <Filter>Header Files\MyCode</Filter>
     </ClInclude>
+    <ClInclude Include="UDPSend.h">
+      <Filter>Header Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="EventListenerUDP.h">
+      <Filter>Header Files\MyCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VEEngine.cpp">
@@ -377,6 +383,12 @@
       <Filter>Source Files\MyCode</Filter>
     </ClCompile>
     <ClCompile Include="EventListenerFFMPEG.cpp">
+      <Filter>Source Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPSend.cpp">
+      <Filter>Source Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="EventListenerUDP.cpp">
       <Filter>Source Files\MyCode</Filter>
     </ClCompile>
   </ItemGroup>

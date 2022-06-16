@@ -1,14 +1,9 @@
+
+//Task04-------------------Added by Me-------------------Task04//
 /*
- *  UDPSend.cpp
- *  MySender
- *
- *  Created by Helmut Hlavacs on 10.12.10.
- *  Copyright 2010 __MyCompanyName__. All rights reserved.
- *
- */
+#pragma comment(lib, "ws2_32.lib")
 
-
-#include "VEInclude.h"
+#include "UDPSend.h"
 
 extern "C" {
 #include <stdio.h>
@@ -19,6 +14,7 @@ extern "C" {
 #define max(x,y)  ((x) >= (y) ? (x) : (y))
 
 namespace ve {
+
 	typedef struct RTHeader {
 		double		  time;
 		unsigned long packetnum;
@@ -27,9 +23,15 @@ namespace ve {
 	} RTHeader_t;
 
 
-	int startWinsock(){
+	void startWinsock() {
+		printf("\nInitialising Winsock...");
 		WSADATA wsa;
-		return WSAStartup(MAKEWORD(2, 0), &wsa); // 2, 0 or 2,2??? 
+		if (WSAStartup(MAKEWORD(2, 0), &wsa) != 0) {// 2, 0 or 2,2??? 
+			printf("Failed. Error Code : %d", WSAGetLastError());
+			return;
+		}
+		printf("\nInitialised Winsock.\n");
+		return;
 	}
 
 
@@ -38,17 +40,10 @@ namespace ve {
 			closeSock();
 		}
 
-		printf("\nInitialising Winsock...\n");
-		if (startWinsock() != 0)
-		{
-			printf("Failed. Error Code : %d", WSAGetLastError());
-			return; //exit instead?
-		}
-		printf("Initialised Winsock.\n");
+		startWinsock();
 
 		printf("\nCreating socket...\n");
-		if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
-		{
+		if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
 			printf("Could not create socket : %d", WSAGetLastError());
 			return;
 		}
@@ -60,7 +55,8 @@ namespace ve {
 	}
 
 
-	int UDPSend::send(uint8_t* buffer, int len) {
+	int UDPSend::send(char* buffer, int len) {
+
 		char sendbuffer[65000];
 
 		packetnum++;
@@ -89,6 +85,7 @@ namespace ve {
 			ret = sendto(sock, sendbuffer, min(maxpacketsize, len - bytes) + sizeof(header), 0, (const struct sockaddr*)&addr, sizeof(addr));
 
 			if (ret == -1) {
+				;
 				return ret;
 			}
 			else {
@@ -98,6 +95,53 @@ namespace ve {
 			header.fragnum++;
 		}
 
+		puts("Data Send\n");
+
+		return bytes;
+	}
+
+	int UDPSend::send(uint8_t* buffer, int len) {
+
+		char sendbuffer[65000];
+
+		packetnum++;
+
+		if (len > 65000) {
+			return 0;
+		}
+		//if( packetnum%100==50) return -1;		//test for packet loss
+
+		int maxpacketsize = 1400;
+
+		RTHeader_t header;
+		header.time = clock() / (double)CLOCKS_PER_SEC;
+		header.packetnum = packetnum;
+		header.fragments = len / maxpacketsize;
+		header.fragnum = 1;
+
+		int left = len - header.fragments * maxpacketsize;
+		if (left > 0) header.fragments++;
+
+		int ret, bytes = 0;
+		for (int i = 0; i < header.fragments; i++) {
+			memcpy(sendbuffer, &header, sizeof(header));
+			memcpy(sendbuffer + sizeof(header), buffer + bytes, min(maxpacketsize, len - bytes));
+
+			ret = sendto(sock, sendbuffer, min(maxpacketsize, len - bytes) + sizeof(header), 0, (const struct sockaddr*)&addr, sizeof(addr));
+
+			if (ret == -1) {
+				;
+				return ret;
+			}
+			else {
+				ret = ret - sizeof(header);
+			}
+			bytes += ret;
+			header.fragnum++;
+		}
+
+		puts("Data Send\n");
+
 		return bytes;
 	}
 
@@ -105,19 +149,9 @@ namespace ve {
 	void UDPSend::closeSock() {
 		closesocket(sock);
 		sock = 0;
-		WSACleanup();// or in destructor
 	}
-
 }
-
-
-
-
-
-
-
-
-//Task04-------------------Added by Me-------------------Task04//
-
+*/
 
 //------------------------------------------------------------//
+

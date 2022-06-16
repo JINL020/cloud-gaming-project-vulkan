@@ -182,6 +182,8 @@
     <ClInclude Include="DescriptorSetGenerator.h" />
     <ClInclude Include="EventListenerFFMPEG.h" />
     <ClInclude Include="EventListenerMyGUI.h" />
+    <ClInclude Include="EventListenerUDP.h" />
+    <ClInclude Include="UDPSend.h" />
     <ClInclude Include="VEEnums.h" />
     <ClInclude Include="RaytracingPipelineGenerator.h" />
     <ClInclude Include="ShaderBindingTableGenerator.h" />
@@ -234,9 +236,11 @@
     <ClCompile Include="DescriptorSetGenerator.cpp" />
     <ClCompile Include="EventListenerFFMPEG.cpp" />
     <ClCompile Include="EventListenerMyGUI.cpp" />
+    <ClCompile Include="EventListenerUDP.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CLIntersect.cpp" />
     <ClCompile Include="EventListenerScreenshots.cpp" />
+    <ClCompile Include="UDPSend.cpp" />
     <ClCompile Include="VERendererRayTracingKHR.cpp" />
     <ClCompile Include="VESubrenderDF.cpp" />
     <ClCompile Include="RaytracingPipelineGenerator.cpp" />

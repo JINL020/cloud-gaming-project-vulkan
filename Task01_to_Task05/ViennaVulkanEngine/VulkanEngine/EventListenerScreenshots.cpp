@@ -3,6 +3,8 @@
 //Task01-------------------Added by Me-------------------Task01//
 #include "VEInclude.h"
 
+#include "EventListenerScreenshots.h"
+
 namespace ve {
     void EventListenerScreenshots::onFrameEnded(veEvent event) {
 

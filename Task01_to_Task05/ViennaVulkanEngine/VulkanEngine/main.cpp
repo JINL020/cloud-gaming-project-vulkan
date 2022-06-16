@@ -7,7 +7,7 @@
 
 
 #include "VEInclude.h"
-
+#include "EventListenerScreenshots.h" //Added by Me Task01
 
 
 namespace ve {
@@ -143,12 +143,12 @@ namespace ve {
 			//registerEventListener(new EventListenerGUI("GUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			
 			//Task01-Task05----------------------Added by Me----------------------Task01-Task05//
-			//registerEventListener(new EventListenerScreenshots("Screenshots"), { veEvent::VE_EVENT_FRAME_ENDED });
+			registerEventListener(new EventListenerScreenshots("Screenshots"), { veEvent::VE_EVENT_FRAME_ENDED });
 			//registerEventListener(new VEEventListenerNuklear("Nuklear"), { veEvent::VE_EVENT_DRAW_OVERLAY});
 			//registerEventListener(new VEEventListenerNuklearDebug("Nuklear_debug"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//registerEventListener(new EventListenerMyGUI("MyGUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//registerEventListener(new EventListenerFFMPEG("FFMPEG"), { veEvent::VE_EVENT_FRAME_ENDED });
-			registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
+			//registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
 			//-------------------------------------------------------------------------------//
 		};
 		
@@ -205,6 +205,13 @@ using namespace ve;
 
 int main() {
 	bool debug = true;
+
+	/*UDPSend sender;
+	std::string IP = "127.0.0.1";
+	sender.init(IP.data(), 8088);
+	char buf[100] = "Helloooo\n";
+	sender.send(buf, strlen(buf));
+	*/
 
 	MyVulkanEngine mve(veRendererType::VE_RENDERER_TYPE_FORWARD, debug);	//enable or disable debugging (=callback, validation layers)
 

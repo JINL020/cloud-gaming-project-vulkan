@@ -2,6 +2,14 @@
 //Task03-------------------Added by Me-------------------Task03//
 #include "VEInclude.h"
 
+extern "C" {
+#include "libavcodec/avcodec.h"
+#include "libavutil/frame.h"
+#include "libavutil/imgutils.h"
+#include <libswscale/swscale.h>
+#include <libavutil/opt.h>
+}
+
 static void encode(AVCodecContext* enc_ctx, AVFrame* frame, AVPacket* pkt, FILE* outfile)
 {
 	int ret;

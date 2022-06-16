@@ -1,34 +1,44 @@
 
 //Task04-------------------Added by Me-------------------Task04//
 
+extern "C" {
+#include "libavcodec/avcodec.h"
+#include "libavutil/frame.h"
+#include "libavutil/imgutils.h"
+#include <libswscale/swscale.h>
+#include <libavutil/opt.h>
+}
+
 #include "VEInclude.h"
 
-static void encode(AVCodecContext* enc_ctx, AVFrame* frame, AVPacket* pkt, FILE* outfile){
-	int ret;
+namespace ve {
 
-	// send the frame to the encoder
-	ret = avcodec_send_frame(enc_ctx, frame);
-	if (ret < 0) {
-		fprintf(stderr, "error sending a frame for encoding\n");
-		exit(1);
-	}
+	static void encode(AVCodecContext* enc_ctx, AVFrame* frame, AVPacket* pkt, FILE* outfile) {
+		int ret;
 
-	while (ret >= 0) {
-		int ret = avcodec_receive_packet(enc_ctx, pkt);
-		if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-			return;
-		else if (ret < 0) {
-			fprintf(stderr, "error during encoding\n");
+		// send the frame to the encoder
+		ret = avcodec_send_frame(enc_ctx, frame);
+		if (ret < 0) {
+			fprintf(stderr, "error sending a frame for encoding\n");
 			exit(1);
 		}
 
-		printf("encoded frame %lld (size=%5d)\n", pkt->pts, pkt->size);
-		fwrite(pkt->data, 1, pkt->size, outfile);
-		av_packet_unref(pkt);
-	}
-}
+		while (ret >= 0) {
+			int ret = avcodec_receive_packet(enc_ctx, pkt);
+			if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+				return;
+			else if (ret < 0) {
+				fprintf(stderr, "error during encoding\n");
+				exit(1);
+			}
 
-namespace ve {
+			//sender.send(pkt->data, pkt->size);
+
+			printf("encoded frame %lld (size=%5d)\n", pkt->pts, pkt->size);
+			fwrite(pkt->data, 1, pkt->size, outfile);
+			av_packet_unref(pkt);
+		}
+	}
 
 	EventListenerUDP::EventListenerUDP(std::string name) : VEEventListener(name) {
 		filename = "media/video/task03_video_25Framerate.mpg";
@@ -37,8 +47,6 @@ namespace ve {
 			fprintf(stderr, "could not open %s\n", filename);
 			exit(1);
 		}
-		//uint8_t startcode[] = { 0, 0, 1, 0xb0}; ???
-		//fwrite(startcode, 1, sizeof(startcode), file); ???
 	}
 
 	EventListenerUDP::~EventListenerUDP() {
