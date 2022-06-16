@@ -19,8 +19,6 @@
 #include "VEEventListenerNuklearDebug.h"
 //Task04--------------------------Added by Me--------------------------Task04//
 #include "EventListenerUDP.h"
-//Task05--------------------------Added by Me--------------------------Task05//
-#include "EventListenerMyGUI.h"
 //---------------------------------------------------------------------------//
 #include "VEWindow.h"
 #include "VEWindowGLFW.h"
@@ -57,16 +55,6 @@
 //#include "UDPSend.h"
 //------------------------------------------------------------//
 
-
-//Task03-------------------Added by Me-------------------Task03//
-/*extern "C" {
-#include "libavcodec/avcodec.h"
-#include "libavutil/frame.h"
-#include "libavutil/imgutils.h"
-#include <libswscale/swscale.h>
-#include <libavutil/opt.h>
-}*/
-//------------------------------------------------------------//
 
 //use this macro to check the function result, if its not VK_SUCCESS then return the error
 #define VECHECKRESULT(x) { \

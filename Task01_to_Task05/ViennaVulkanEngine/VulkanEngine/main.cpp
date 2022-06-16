@@ -10,6 +10,7 @@
 
 #include "EventListenerScreenshots.h" //Added by Me Task01
 #include "EventListenerFFMPEG.h" //Added by Me Task03
+#include "EventListenerMyGUI.h" //Added by Me Task05
 
 
 namespace ve {
@@ -148,9 +149,9 @@ namespace ve {
 			//registerEventListener(new EventListenerScreenshots("Screenshots"), { veEvent::VE_EVENT_FRAME_ENDED });
 			//registerEventListener(new VEEventListenerNuklear("Nuklear"), { veEvent::VE_EVENT_DRAW_OVERLAY});
 			//registerEventListener(new VEEventListenerNuklearDebug("Nuklear_debug"), { veEvent::VE_EVENT_DRAW_OVERLAY });
-			registerEventListener(new EventListenerFFMPEG("FFMPEG"), { veEvent::VE_EVENT_FRAME_ENDED });
+			//registerEventListener(new EventListenerFFMPEG("FFMPEG"), { veEvent::VE_EVENT_FRAME_ENDED });
 			//registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
-			//registerEventListener(new EventListenerMyGUI("MyGUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
+			registerEventListener(new EventListenerMyGUI("MyGUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//-------------------------------------------------------------------------------//
 		};
 		
