@@ -1,6 +1,7 @@
 
 //Task03-------------------Added by Me-------------------Task03//
 #include "VEInclude.h"
+#include "EventListenerFFMPEG.h"
 
 extern "C" {
 #include "libavcodec/avcodec.h"
