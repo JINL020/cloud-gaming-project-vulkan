@@ -1,6 +1,6 @@
 
 //Task04-------------------Added by Me-------------------Task04//
-/*
+
 #pragma comment(lib, "ws2_32.lib")
 
 #include "UDPSend.h"
@@ -22,32 +22,17 @@ namespace ve {
 		unsigned char fragnum;
 	} RTHeader_t;
 
-
-	void startWinsock() {
-		printf("\nInitialising Winsock...");
-		WSADATA wsa;
-		if (WSAStartup(MAKEWORD(2, 0), &wsa) != 0) {// 2, 0 or 2,2??? 
-			printf("Failed. Error Code : %d", WSAGetLastError());
-			return;
-		}
-		printf("\nInitialised Winsock.\n");
-		return;
-	}
-
-
 	void UDPSend::init(char* address, int port) {
 		if (sock) {
 			closeSock();
 		}
 
-		startWinsock();
-
-		printf("\nCreating socket...\n");
+		printf("\nCreating socket...");
 		if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
 			printf("Could not create socket : %d", WSAGetLastError());
 			return;
 		}
-		printf("Socket created.\n");
+		printf("\nSocket created\n");
 
 		addr.sin_family = AF_INET;
 		addr.sin_addr.s_addr = inet_addr(address);
@@ -85,7 +70,7 @@ namespace ve {
 			ret = sendto(sock, sendbuffer, min(maxpacketsize, len - bytes) + sizeof(header), 0, (const struct sockaddr*)&addr, sizeof(addr));
 
 			if (ret == -1) {
-				;
+				printf("ret is -1; Error : %d", WSAGetLastError());
 				return ret;
 			}
 			else {
@@ -95,7 +80,7 @@ namespace ve {
 			header.fragnum++;
 		}
 
-		puts("Data Send\n");
+		printf("\nSent data %d (size=%d)\n", buffer, len);
 
 		return bytes;
 	}
@@ -130,7 +115,7 @@ namespace ve {
 			ret = sendto(sock, sendbuffer, min(maxpacketsize, len - bytes) + sizeof(header), 0, (const struct sockaddr*)&addr, sizeof(addr));
 
 			if (ret == -1) {
-				;
+				printf( "ret is -1; Error : %d", WSAGetLastError());
 				return ret;
 			}
 			else {
@@ -140,7 +125,7 @@ namespace ve {
 			header.fragnum++;
 		}
 
-		puts("Data Send\n");
+		printf("Sent data %lld (size=%d)\n", buffer, len);
 
 		return bytes;
 	}
@@ -151,7 +136,7 @@ namespace ve {
 		sock = 0;
 	}
 }
-*/
+
 
 //------------------------------------------------------------//
 

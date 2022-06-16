@@ -17,9 +17,6 @@
 #include "VEEventListenerGLFW.h"
 #include "VEEventListenerNuklear.h"
 #include "VEEventListenerNuklearDebug.h"
-//Task04--------------------------Added by Me--------------------------Task04//
-#include "EventListenerUDP.h"
-//---------------------------------------------------------------------------//
 #include "VEWindow.h"
 #include "VEWindowGLFW.h"
 #include "VEEngine.h"
@@ -50,10 +47,6 @@
 #include "VESubrenderDF_Composer.h"
 #include "VESubrenderRayTracingNV_DN.h"
 #include "VESubrenderRayTracingKHR_DN.h"
-
-//Task04-------------------Added by Me-------------------Task04//
-//#include "UDPSend.h"
-//------------------------------------------------------------//
 
 
 //use this macro to check the function result, if its not VK_SUCCESS then return the error

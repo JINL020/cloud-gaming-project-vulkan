@@ -15,6 +15,8 @@ extern "C" {
 #include <cstdint>
 }
 
+#include "UDPSend.h"
+
 #ifndef EVENTLISTENERUDP_H
 #define EVENTLISTENERUDP_H
 
@@ -26,7 +28,7 @@ namespace ve {
 		double timePassed = 0;
 		const char* filename;
 		FILE* file;
-		//UDPSend sender;
+		UDPSend sender;
 
 	protected:
 		virtual void onFrameEnded(veEvent event);

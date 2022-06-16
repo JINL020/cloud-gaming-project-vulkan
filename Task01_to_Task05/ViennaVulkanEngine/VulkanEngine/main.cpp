@@ -5,12 +5,18 @@
 *
 */
 
+#pragma comment(lib, "ws2_32.lib")
 
 #include "VEInclude.h"
 
 #include "EventListenerScreenshots.h" //Added by Me Task01
 #include "EventListenerFFMPEG.h" //Added by Me Task03
+#include "EventListenerUDP.h" //Added by Me Task04
 #include "EventListenerMyGUI.h" //Added by Me Task05
+
+extern "C" {
+#include <winsock2.h>
+}
 
 
 namespace ve {
@@ -150,8 +156,8 @@ namespace ve {
 			//registerEventListener(new VEEventListenerNuklear("Nuklear"), { veEvent::VE_EVENT_DRAW_OVERLAY});
 			//registerEventListener(new VEEventListenerNuklearDebug("Nuklear_debug"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//registerEventListener(new EventListenerFFMPEG("FFMPEG"), { veEvent::VE_EVENT_FRAME_ENDED });
-			//registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
-			registerEventListener(new EventListenerMyGUI("MyGUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
+			registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
+			//registerEventListener(new EventListenerMyGUI("MyGUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//-------------------------------------------------------------------------------//
 		};
 		
@@ -201,26 +207,39 @@ namespace ve {
 		};
 	};
 
-
+	void startWinsock() {
+		printf("\nInitialising Winsock...");
+		WSADATA wsa;
+		if (WSAStartup(MAKEWORD(2, 0), &wsa) != 0) {// 2, 0 or 2,2??? 
+			printf("Failed. Error Code : %d", WSAGetLastError());
+			return;
+		}
+		printf("\nInitialised Winsock\n");
+		return;
+	}
 }
+
 
 using namespace ve;
 
 int main() {
 	bool debug = true;
 
-	/*UDPSend sender;
+	startWinsock();
+	/*
+	UDPSend sender;
 	std::string IP = "127.0.0.1";
 	sender.init(IP.data(), 8088);
 	char buf[100] = "Helloooo\n";
 	sender.send(buf, strlen(buf));
 	*/
-
 	MyVulkanEngine mve(veRendererType::VE_RENDERER_TYPE_FORWARD, debug);	//enable or disable debugging (=callback, validation layers)
 
 	mve.initEngine();
 	mve.loadLevel(1);
 	mve.run();
+
+	WSACleanup();
 
 	return 0;
 }

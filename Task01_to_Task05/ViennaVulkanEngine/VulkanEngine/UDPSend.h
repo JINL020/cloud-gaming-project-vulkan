@@ -1,6 +1,6 @@
 
 //Task04-------------------Added by Me-------------------Task04//
-/*
+
 extern "C" {
 #define NOMINMAX
 #include <winsock2.h>
@@ -19,7 +19,6 @@ extern "C" {
 #define UDPSEND_H
 
 namespace ve {
-void startWinsock();
 
 class UDPSend {
 public:
@@ -36,5 +35,5 @@ public:
 };
 }
 #endif
-*/
+
 //------------------------------------------------------------//

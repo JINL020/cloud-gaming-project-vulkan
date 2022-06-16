@@ -10,10 +10,12 @@ extern "C" {
 }
 
 #include "VEInclude.h"
+#include "EventListenerUDP.h"
+#include "UDPSend.h"
 
 namespace ve {
 
-	static void encode(AVCodecContext* enc_ctx, AVFrame* frame, AVPacket* pkt, FILE* outfile) {
+	static void encode(AVCodecContext* enc_ctx, AVFrame* frame, AVPacket* pkt, FILE* outfile, UDPSend &sender) {
 		int ret;
 
 		// send the frame to the encoder
@@ -32,10 +34,10 @@ namespace ve {
 				exit(1);
 			}
 
-			//sender.send(pkt->data, pkt->size);
+			sender.send(pkt->data, pkt->size);
 
-			printf("encoded frame %lld (size=%5d)\n", pkt->pts, pkt->size);
-			fwrite(pkt->data, 1, pkt->size, outfile);
+			//printf("encoded frame %lld (size=%5d)\n", pkt->pts, pkt->size);
+			//fwrite(pkt->data, 1, pkt->size, outfile);
 			av_packet_unref(pkt);
 		}
 	}
@@ -47,6 +49,9 @@ namespace ve {
 			fprintf(stderr, "could not open %s\n", filename);
 			exit(1);
 		}
+
+		std::string IP = "127.0.0.1";
+		sender.init(IP.data(), 8088);
 	}
 
 	EventListenerUDP::~EventListenerUDP() {
@@ -153,10 +158,10 @@ namespace ve {
 			//frame->pts = i; // What to do with that?
 
 			// Encode the image.
-			encode(context, frame, pkt, file);
+			encode(context, frame, pkt, file, sender);
 
 			// Flush the encoder.
-			encode(context, NULL, pkt, file);
+			encode(context, NULL, pkt, file, sender);
 
 			// Free all the stuff.
 			avcodec_free_context(&context);
