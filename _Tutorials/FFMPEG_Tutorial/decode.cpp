@@ -33,14 +33,13 @@ extern "C" {
 #define INBUF_SIZE 4096
 
 static void pgm_save(unsigned char *buf, int wrap, int xsize, int ysize,
-                    char *filename)
-{
+                    char *filename){
    FILE *f=fopen(filename,"w");
    fprintf(f,"P5\n%d %d\n%d\n",xsize,ysize,255);
    for(int i=0;i<ysize;i++)
        fwrite(buf + i * wrap,1,xsize,f);
        fclose(f);
-   }
+}
 
 static void decode(AVCodecContext *dec_ctx, AVFrame *frame, AVPacket *pkt,
                     const char *filename)

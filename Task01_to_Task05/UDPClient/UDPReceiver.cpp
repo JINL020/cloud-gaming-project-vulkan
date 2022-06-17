@@ -1,15 +1,14 @@
 #pragma comment(lib, "ws2_32.lib")
 
-
-#include "UDPReceiver.h"
-
 extern "C" {
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
-
 #include <cstdint>
 }
+
+#include "UDPReceiver.h"
+#include "decoder.h"
 
 typedef struct RTHeader {
 	double		  time;
@@ -145,7 +144,7 @@ int main() {
     receiver.startWinsock();
     receiver.init(8088);
 
-    const char *filename = "video.mpg";
+    char *filename = "video.mpg";
     FILE* file = fopen(filename, "wb");
     if (!file) {
         fprintf(stderr, "could not open %s\n", filename);
@@ -158,12 +157,15 @@ int main() {
 		double ptime;
 		receivedBytes = receiver.receive(buf, sizeof buf, &ptime);
         printf("\nreceived %d bytes", receivedBytes);
-        fwrite(buf, 1,  receivedBytes, file);
+        fwrite(buf, 1,  receivedBytes, file);   
 	} while (receivedBytes != 0);
 
     uint8_t endcode[] = { 0, 0, 1, 0xb7 };
     fwrite(endcode, 1, sizeof(endcode), file);
     fclose(file);
+
+    Decoder decoder;
+    decoder.decode(filename);
 
     return 0;
 }

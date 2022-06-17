@@ -36,8 +36,6 @@ namespace ve {
 
 			sender.send((char*)pkt->data, pkt->size);
 
-			//printf("encoded frame %lld (size=%5d)\n", pkt->pts, pkt->size);
-			//fwrite(pkt->data, 1, pkt->size, outfile);
 			av_packet_unref(pkt);
 		}
 	}
