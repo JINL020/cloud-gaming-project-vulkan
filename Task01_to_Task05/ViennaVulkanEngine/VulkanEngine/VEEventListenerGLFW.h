@@ -33,7 +33,7 @@ namespace ve
 		uint32_t m_numScreenshot = 0; ///<Screenshot ID
 
 		//Task02-------------------Added by Me-------------------Task02//
-		bool selectedPacman = false;
+		bool selectedPlayer = false;
 		//-------------------------------------------------------------//
 
 		virtual void onFrameEnded(veEvent event);

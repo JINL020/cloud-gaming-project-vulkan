@@ -40,7 +40,7 @@ namespace ve
 
 		//Task02-------------------Added by Me-------------------Task02//
 		if (event.idata1 == GLFW_KEY_C && event.idata3 == GLFW_PRESS) {
-			selectedPacman = !selectedPacman;
+			selectedPlayer = !selectedPlayer;
 		}
 		//-------------------------------------------------------------//
 
@@ -54,9 +54,9 @@ namespace ve
 		VESceneNode *pParent = pCamera->getParent();
 
 		//Task02-------------------Added by Me-------------------Task02//
-		VESceneNode* pPacman = getSceneManagerPointer()->getSceneNode("Pacman Parent")->getChildrenList().at(0);
+		VESceneNode* pPlayer = getSceneManagerPointer()->getSceneNode("Player Parent")->getChildrenList().at(0);
 		
-		if (selectedPacman) {
+		if (selectedPlayer) {
 			switch (event.idata1) {
 			case GLFW_KEY_LEFT:
 				angle = rotSpeed * (float)event.dt * -1.0f;
@@ -76,15 +76,15 @@ namespace ve
 				return false;
 			};
 
-			glm::mat4 pacmanRot = pPacman->getRotation();
-			glm::vec3 pacmanPos = pPacman->getPosition();
+			glm::mat4 playerRot = pPlayer->getRotation();
+			glm::vec3 playerPos = pPlayer->getPosition();
 
 			glm::mat4  rotate = glm::rotate(glm::mat4(1.0), angle, glm::vec3(rot4.x, rot4.y, rot4.z));
-			pPacman->setTransform(rotate * pacmanRot);
+			pPlayer->setTransform(rotate * playerRot);
 
 			float speed = 6.0f;
-			glm::vec4 trans = (float)event.dt * pacmanRot * speed * translate;
-			pPacman->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(trans.x, trans.y, trans.z) + pacmanPos));	
+			glm::vec4 trans = (float)event.dt * playerRot * speed * translate;
+			pPlayer->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(trans.x, trans.y, trans.z) + playerPos));
 		}
 		//-------------------------------------------------------------//
 

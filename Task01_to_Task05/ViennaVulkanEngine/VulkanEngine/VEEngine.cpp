@@ -666,7 +666,7 @@ namespace ve
 
 		//camera parent is used for translations
 		VESceneNode *cameraParent = getSceneManagerPointer()->createSceneNode("StandardCameraParent", getRoot(), 
-																			  glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+																			  glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 15.0f, -25.0f)));
 
 		//camera can only do yaw (parent y-axis) and pitch (local x-axis) rotations
 		VkExtent2D extent = getWindowPointer()->getExtent();
@@ -676,6 +676,12 @@ namespace ve
 		camera->m_aspectRatio = extent.width / (float)extent.height;
 		camera->m_fov = 45.0f;
 		camera->lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		glm::vec4 rot4 = camera->getTransform() * glm::vec4(1.0, 0.0, 0.0, 1.0);
+		glm::vec3 rot3 = glm::vec3(rot4.x, rot4.y, rot4.z);
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0), 0.37f, rot3);
+		camera->multiplyTransform(rotate);
+
 		getSceneManagerPointer()->setCamera(camera);
 
 		VELight *light4 = (VESpotLight *)getSceneManagerPointer()->createLight("StandardAmbientLight", VELight::VE_LIGHT_TYPE_AMBIENT, camera);

@@ -16,8 +16,13 @@ Task03
 
 Task04
 - Added UDPSend.h and UDPSend.cpp
-- Modified main.cpp: added startWinsock(), #pragma comment and winsock2.h
+- Modified main.cpp:
+        - added startWinsock(), #pragma comment and winsock2.h
+        - loaded in room, player, cockroach
+        - 
 - Modified VEInclude.h: added UDPSend.h and EventListenerUDP.h
+- Modified VEEngine.cpp: changed camera postion and pan
+- 
 
 
 Task05

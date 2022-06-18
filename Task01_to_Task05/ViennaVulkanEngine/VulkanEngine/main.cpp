@@ -17,7 +17,7 @@ namespace ve {
 
 
 	uint32_t g_score = 0;				//derzeitiger Punktestand
-	double g_time = 30.0;				//zeit die noch übrig ist
+	double g_time = 50.0;				//zeit die noch übrig ist
 	bool g_gameLost = false;			//true... das Spiel wurde verloren
 	bool g_restart = false;			//true...das Spiel soll neu gestartet werden
 
@@ -69,7 +69,7 @@ namespace ve {
 
 
 	static std::default_random_engine e{ 12345 };					//Für Zufallszahlen
-	static std::uniform_real_distribution<> d{ -10.0f, 10.0f };		//Für Zufallszahlen
+	static std::uniform_real_distribution<> d{ -8.0f, 8.0f };		//Für Zufallszahlen
 
 	//
 	// Überprüfen, ob die Kamera die Kiste berührt
@@ -83,18 +83,18 @@ namespace ve {
 			if (g_restart) {
 				g_gameLost = false;
 				g_restart = false;
-				g_time = 30;
+				g_time = 50;
 				g_score = 0;
-				getSceneManagerPointer()->getSceneNode("The Cube Parent")->setPosition(glm::vec3(d(e), 1.0f, d(e)));
+				getSceneManagerPointer()->getSceneNode("Cockroach Parent")->setPosition(glm::vec3(d(e), 2.0f, d(e)));
 				getEnginePointer()->m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
 				return;
 			}
 			if (g_gameLost) return;
 
-			glm::vec3 positionCube   = getSceneManagerPointer()->getSceneNode("The Cube Parent")->getPosition();
-			glm::vec3 positionPacman = getSceneManagerPointer()->getSceneNode("Pacman")->getPosition();
+			glm::vec3 positionCube   = getSceneManagerPointer()->getSceneNode("Cockroach Parent")->getPosition();
+			glm::vec3 positionPlayer = getSceneManagerPointer()->getSceneNode("Player")->getPosition();
 
-			float distance = glm::length(positionCube - positionPacman);
+			float distance = glm::length(positionCube - positionPlayer);
 			if (distance < 2) {
 				g_score++;
 				getEnginePointer()->m_irrklangEngine->play2D("media/sounds/explosion.wav", false);
@@ -103,11 +103,11 @@ namespace ve {
 					getEnginePointer()->m_irrklangEngine->play2D("media/sounds/bell.wav", false);
 				}
 
-				VESceneNode *eParent = getSceneManagerPointer()->getSceneNode("The Cube Parent");
-				eParent->setPosition(glm::vec3(d(e), 1.0f, d(e)));
+				VESceneNode * cockroachParent = getSceneManagerPointer()->getSceneNode("Cockroach Parent");
+				cockroachParent->setPosition(glm::vec3(d(e), 2.0f, d(e)));
 
-				getSceneManagerPointer()->deleteSceneNodeAndChildren("The Cube"+ std::to_string(cubeid));
-				VECHECKPOINTER(getSceneManagerPointer()->loadModel("The Cube"+ std::to_string(++cubeid)  , "media/models/test/crate0", "cube.obj", 0, eParent) );
+				//getSceneManagerPointer()->deleteSceneNodeAndChildren("The Cube"+ std::to_string(cubeid));
+				//VECHECKPOINTER(getSceneManagerPointer()->loadModel("The Cube"+ std::to_string(++cubeid)  , "media/models/cockroach", "cockroach.obj", 0, eParent) );
 			}
 
 			g_time -= event.dt;
@@ -142,7 +142,7 @@ namespace ve {
 		virtual void registerEventListeners() {
 			VEEngine::registerEventListeners();
 
-			//registerEventListener(new EventListenerCollision("Collision"), { veEvent::VE_EVENT_FRAME_STARTED });
+			registerEventListener(new EventListenerCollision("Collision"), { veEvent::VE_EVENT_FRAME_STARTED });
 			//registerEventListener(new EventListenerGUI("GUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			
 			//Task01-Task05----------------------Added by Me----------------------Task01-Task05//
@@ -150,7 +150,7 @@ namespace ve {
 			//registerEventListener(new VEEventListenerNuklear("Nuklear"), { veEvent::VE_EVENT_DRAW_OVERLAY});
 			//registerEventListener(new VEEventListenerNuklearDebug("Nuklear_debug"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//registerEventListener(new EventListenerFFMPEG("FFMPEG"), { veEvent::VE_EVENT_FRAME_ENDED });
-			registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
+			//registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
 			//registerEventListener(new EventListenerMyGUI("MyGUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//-------------------------------------------------------------------------------//
 		};
@@ -180,21 +180,36 @@ namespace ve {
 			VECHECKPOINTER( pE4 = (VEEntity*)getSceneManagerPointer()->getSceneNode("The Plane/plane_t_n_s.obj/plane/Entity_0") );
 			pE4->setParam( glm::vec4(1000.0f, 1000.0f, 0.0f, 0.0f) );
 
-			VESceneNode *e1,*eParent;
-			eParent = getSceneManagerPointer()->createSceneNode("The Cube Parent", pScene, glm::mat4(1.0));
-			VECHECKPOINTER(e1 = getSceneManagerPointer()->loadModel("The Cube0", "media/models/test/crate0", "cube.obj"));
-			eParent->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(-10.0f, 1.0f, 10.0f)));
-			eParent->addChild(e1);
+			VESceneNode *cockroachParent;
+			cockroachParent = getSceneManagerPointer()->createSceneNode("Cockroach Parent", pScene, glm::mat4(1.0));
+			VESceneNode * cockroach;
+			VECHECKPOINTER(cockroach = getSceneManagerPointer()->loadModel("Cockroach", "media/models/cockroach", "cockroach.obj"));
+			cockroachParent->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(-8.0f, 2.0f, 8.0f)));
+			cockroachParent->addChild(cockroach);
 
 			//Task02-------------------Added by Me-------------------Task02//
-			VESceneNode* pacmanParent;
+			/*VESceneNode* pacmanParent;
 			pacmanParent = getSceneManagerPointer()->createSceneNode("Pacman Parent", pScene, glm::mat4(1.0));
-
 			VESceneNode* pacman;
 			VECHECKPOINTER(pacman = getSceneManagerPointer()->loadModel("Pacman", "media/models/pacman", "pacman.obj", 0, pacmanParent));
-			pacman->setPosition(glm::vec3(0.0f, 1.5f, 6.0f));
+			pacman->setPosition(glm::vec3(0.0f, 2.5f, 6.0f));
+			pacmanParent->addChild(pacman);*/
+			//-------------------------------------------------------------//
 
-			pacmanParent->addChild(pacman);
+			VESceneNode* roomParent;
+			roomParent = getSceneManagerPointer()->createSceneNode("Room Parent", pScene, glm::mat4(1.0));
+			VESceneNode* room;
+			VECHECKPOINTER(room = getSceneManagerPointer()->loadModel("Room", "media/models/room", "room.obj", 0, roomParent));
+			room->setPosition(glm::vec3(0.0f, 1.5f, 0.0f));
+			roomParent->addChild(room);
+
+			VESceneNode* playerParent;
+			playerParent = getSceneManagerPointer()->createSceneNode("Player Parent", pScene, glm::mat4(1.0));
+			VESceneNode* player;
+			VECHECKPOINTER(player = getSceneManagerPointer()->loadModel("Player", "media/models/fairy", "fairy.obj", 0, playerParent));
+			player->setPosition(glm::vec3(3.0f, 1.4f, 0.0f));
+			playerParent->addChild(player);
+			
 			//-------------------------------------------------------------//
 
 			m_irrklangEngine->play2D("media/sounds/ophelia.wav", true);
