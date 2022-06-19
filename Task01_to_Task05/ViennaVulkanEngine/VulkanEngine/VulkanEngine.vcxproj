@@ -180,6 +180,7 @@
     <ClInclude Include="CLInclude.h" />
     <ClInclude Include="CLShape.h" />
     <ClInclude Include="DescriptorSetGenerator.h" />
+    <ClInclude Include="EventListenerCockroach.h" />
     <ClInclude Include="EventListenerFFMPEG.h" />
     <ClInclude Include="EventListenerMyGUI.h" />
     <ClInclude Include="EventListenerUDP.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CLIntersect.cpp" />
     <ClCompile Include="EventListenerScreenshots.cpp" />
+    <ClCompile Include="EventListenerCockroach.cpp" />
     <ClCompile Include="UDPSend.cpp" />
     <ClCompile Include="VERendererRayTracingKHR.cpp" />
     <ClCompile Include="VESubrenderDF.cpp" />

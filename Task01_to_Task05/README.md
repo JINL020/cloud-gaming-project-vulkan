@@ -16,12 +16,7 @@ Task03
 
 Task04
 - Added UDPSend.h and UDPSend.cpp
-- Modified main.cpp:
-        - added startWinsock(), #pragma comment and winsock2.h
-        - loaded in room, player, cockroach
-        - 
-- Modified VEInclude.h: added UDPSend.h and EventListenerUDP.h
-- Modified VEEngine.cpp: changed camera postion and pan
+- Modified main.cpp: added startWinsock(), #pragma comment and winsock2.h
 - 
 
 
@@ -29,3 +24,12 @@ Task05
 - Added EventListenerMyGUI.h and EventListenerMyGUI.cpp
 - Modified main.cpp: registered new EventListenerMyGUI and disabled all other EventListeners and added EventListenerMyGUI.h
 - Modified VESceneManager.h and VESceneManager.cpp: added getSceneNodes()
+
+
+Game
+- Modified main.cpp: loaded in room, player, cockroach, replaced box with cockroach; added EventListenerCockroach.h, registered new EventListenerCockroach
+- Modified VEEngine.cpp: changed camera postion and pan
+- Changed Pacman to Player
+- Models: fairy and cockroach are from https://www.turbosquid.com/ and room is from me (wood texture from https://pixabay.com/)
+- Modified VEEventListenerGLFW: player moves in facing direction with only arrow keys
+- Added EventListenerCockroach: cockroach moves in random pattern

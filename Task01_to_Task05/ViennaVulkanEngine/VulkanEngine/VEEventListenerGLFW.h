@@ -21,8 +21,7 @@ namespace ve
 		* just as you would expect from a first person shooter.
 		*
 		*/
-	class VEEventListenerGLFW : public VEEventListener
-	{
+	class VEEventListenerGLFW : public VEEventListener{
 	protected:
 		bool m_usePrevCursorPosition = false; ///<Can I use the previous cursor position for moving the camera?
 		bool m_rightButtonClicked = false; ///<Is the left button currently clicked?

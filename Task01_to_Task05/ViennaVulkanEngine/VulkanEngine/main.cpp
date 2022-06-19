@@ -11,6 +11,7 @@
 #include "EventListenerFFMPEG.h" //Added by Me Task03
 #include "EventListenerUDP.h" //Added by Me Task04
 #include "EventListenerMyGUI.h" //Added by Me Task05
+#include "EventListenerCockroach.h" // Game
 
 
 namespace ve {
@@ -78,7 +79,6 @@ namespace ve {
 	class EventListenerCollision : public VEEventListener {
 	protected:
 		virtual void onFrameStarted(veEvent event) {
-			static uint32_t cubeid = 0;
 
 			if (g_restart) {
 				g_gameLost = false;
@@ -105,9 +105,6 @@ namespace ve {
 
 				VESceneNode * cockroachParent = getSceneManagerPointer()->getSceneNode("Cockroach Parent");
 				cockroachParent->setPosition(glm::vec3(d(e), 2.0f, d(e)));
-
-				//getSceneManagerPointer()->deleteSceneNodeAndChildren("The Cube"+ std::to_string(cubeid));
-				//VECHECKPOINTER(getSceneManagerPointer()->loadModel("The Cube"+ std::to_string(++cubeid)  , "media/models/cockroach", "cockroach.obj", 0, eParent) );
 			}
 
 			g_time -= event.dt;
@@ -153,6 +150,7 @@ namespace ve {
 			//registerEventListener(new EventListenerUDP("UDP"), { veEvent::VE_EVENT_FRAME_ENDED });
 			//registerEventListener(new EventListenerMyGUI("MyGUI"), { veEvent::VE_EVENT_DRAW_OVERLAY });
 			//-------------------------------------------------------------------------------//
+			registerEventListener(new EventListenerCockroach("CockroachMovement"), { veEvent::VE_EVENT_DRAW_OVERLAY }); // Game
 		};
 		
 

@@ -6,6 +6,7 @@
 */
 
 #include "VEInclude.h"
+#include<cmath>
 
 namespace ve
 {
@@ -50,27 +51,24 @@ namespace ve
 		float angle = 0.0;
 		float rotSpeed = 2.0;
 
-		VECamera *pCamera = getSceneManagerPointer()->getCamera();
-		VESceneNode *pParent = pCamera->getParent();
-
 		//Task02-------------------Added by Me-------------------Task02//
-		VESceneNode* pPlayer = getSceneManagerPointer()->getSceneNode("Player Parent")->getChildrenList().at(0);
-		
 		if (selectedPlayer) {
+			VESceneNode* pPlayer = getSceneManagerPointer()->getSceneNode("Player Parent")->getChildrenList().at(0);
+
+			rot4 = glm::vec4(0, 1, 0, 1);
+			translate = glm::vec4(0.0, 0.0, -1.0, 1.0);
 			switch (event.idata1) {
 			case GLFW_KEY_LEFT:
-				angle = rotSpeed * (float)event.dt * -1.0f;
-				rot4 = glm::vec4(0, 1, 0, 1);;
+				angle = (90 * M_PI) / 180;
 				break;
-			case GLFW_KEY_RIGHT:
-				angle = rotSpeed * (float)event.dt * 1.0f;
-				rot4 = glm::vec4(0, 1, 0, 1);;
+			case GLFW_KEY_RIGHT:;
+				angle = (-90 * M_PI) / 180;
 				break;
 			case GLFW_KEY_UP:
-				translate = glm::vec4(0.0, 0.0, -1.0, 1.0);
+				angle = (180 * M_PI) / 180;
 				break;
 			case GLFW_KEY_DOWN:
-				translate = glm::vec4(0.0, 0.0, 1.0, 1.0);
+				angle = (0 * M_PI) / 180;
 				break;
 			default:
 				return false;
@@ -80,15 +78,31 @@ namespace ve
 			glm::vec3 playerPos = pPlayer->getPosition();
 
 			glm::mat4  rotate = glm::rotate(glm::mat4(1.0), angle, glm::vec3(rot4.x, rot4.y, rot4.z));
-			pPlayer->setTransform(rotate * playerRot);
+			pPlayer->setTransform(rotate);
 
-			float speed = 6.0f;
+			float speed = 8.0f;
 			glm::vec4 trans = (float)event.dt * playerRot * speed * translate;
 			pPlayer->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(trans.x, trans.y, trans.z) + playerPos));
+
+			if (playerPos.x < -8) {
+				pPlayer->setPosition(glm::vec3(-8, playerPos.y, playerPos.z));
+			}
+			if (playerPos.x > 8) {
+				pPlayer->setPosition(glm::vec3(8, playerPos.y, playerPos.z));
+			}
+			if ( playerPos.z < -8) {
+				pPlayer->setPosition(glm::vec3(playerPos.x, playerPos.y, -8));
+			}
+			if ( playerPos.z > 8) {
+				pPlayer->setPosition(glm::vec3(playerPos.x, playerPos.y, 8));
+			}
 		}
 		//-------------------------------------------------------------//
 
 		else {
+			VECamera* pCamera = getSceneManagerPointer()->getCamera();
+			VESceneNode* pParent = pCamera->getParent();
+
 			switch (event.idata1)
 			{
 			case GLFW_KEY_A:
