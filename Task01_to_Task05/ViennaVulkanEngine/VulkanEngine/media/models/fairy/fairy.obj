@@ -1,6 +1,6 @@
 # Blender v3.0.0 OBJ File: 'fairy.blend'
 # www.blender.org
-mtllib fairy2.mtl
+mtllib fairy.mtl
 o fairy
 v -1.230297 5.068317 0.732776
 v -1.072520 4.963556 0.760827

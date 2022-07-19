@@ -75,9 +75,6 @@ namespace ve {
 
 	void EventListenerUDP::onFrameEnded(veEvent event) {
 
-		timePassed += event.dt;
-
-		if (timePassed >= 0.30) {
 			VkExtent2D extent = getWindowPointer()->getExtent();
 			uint32_t imageSize = extent.width * extent.height * 4;
 			VkImage image = getEnginePointer()->getRenderer()->getSwapChainImage();
@@ -109,18 +106,19 @@ namespace ve {
 				exit(2);
 			}
 			// Set context values.
-			context->bit_rate = 40000;
+			context->bit_rate = 15000000;
 			// Resolution must be a multiple of two!
 			context->width = extent.width;
 			context->height = extent.height;
 			// Frames per second
 			context->time_base.num = 1;
-			context->time_base.den = 25; // change to 1 because no for_loop anymore?
-			context->framerate.num = 25; // change to 1 because no for_loop anymore?
+			context->time_base.den = 60; // change to 1 because no for_loop anymore?
+			context->framerate.num = 60; // change to 1 because no for_loop anymore?
 			context->framerate.den = 1;
-			context->gop_size = 10; // Emit one intra frame every ten frames.
-			context->max_b_frames = 1;
+			context->gop_size = 15; // Emit one intra frame every ten frames.
+			context->max_b_frames = 5;
 			context->pix_fmt = AV_PIX_FMT_YUV420P;
+			context->flags |= AV_CODEC_FLAG_TRUNCATED;
 
 			// Initialize the AVCodecContext to use the given AVCodec (open it)
 			if (avcodec_open2(context, codec, NULL) < 0) {
@@ -185,9 +183,6 @@ namespace ve {
 			delete[] dataImage;
 			//-----------------------------END-----------------------------------//
 
-			timePassed = 0;
-
-		}
 	}
 }
 

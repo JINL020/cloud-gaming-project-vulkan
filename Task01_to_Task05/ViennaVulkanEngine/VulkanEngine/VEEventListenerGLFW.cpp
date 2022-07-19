@@ -53,15 +53,19 @@ namespace ve
 
 		//Task02-------------------Added by Me-------------------Task02//
 		if (selectedPlayer) {
+
 			VESceneNode* pPlayer = getSceneManagerPointer()->getSceneNode("Player Parent")->getChildrenList().at(0);
+			glm::mat4 playerRot = pPlayer->getRotation();
+			glm::vec3 playerPos = pPlayer->getPosition();
 
 			rot4 = glm::vec4(0, 1, 0, 1);
 			translate = glm::vec4(0.0, 0.0, -1.0, 1.0);
+
 			switch (event.idata1) {
 			case GLFW_KEY_LEFT:
 				angle = (90 * M_PI) / 180;
 				break;
-			case GLFW_KEY_RIGHT:;
+			case GLFW_KEY_RIGHT:
 				angle = (-90 * M_PI) / 180;
 				break;
 			case GLFW_KEY_UP:
@@ -74,15 +78,14 @@ namespace ve
 				return false;
 			};
 
-			glm::mat4 playerRot = pPlayer->getRotation();
-			glm::vec3 playerPos = pPlayer->getPosition();
 
 			glm::mat4  rotate = glm::rotate(glm::mat4(1.0), angle, glm::vec3(rot4.x, rot4.y, rot4.z));
 			pPlayer->setTransform(rotate);
 
-			float speed = 8.0f;
+			float speed = 15.0f;
 			glm::vec4 trans = (float)event.dt * playerRot * speed * translate;
 			pPlayer->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(trans.x, trans.y, trans.z) + playerPos));
+
 
 			if (playerPos.x < -8) {
 				pPlayer->setPosition(glm::vec3(-8, playerPos.y, playerPos.z));
@@ -96,6 +99,35 @@ namespace ve
 			if ( playerPos.z > 8) {
 				pPlayer->setPosition(glm::vec3(playerPos.x, playerPos.y, 8));
 			}
+
+
+<<<<<<< HEAD
+			/*VECamera* pCamera = getSceneManagerPointer()->getCamera();
+=======
+			VECamera* pCamera = getSceneManagerPointer()->getCamera();
+>>>>>>> 322edc4317c2bb62eedb011d537c8fd21430e40f
+			VESceneNode* pCameraParent = pCamera->getParent();
+			glm::vec3 cameraParentPos = pCameraParent->getPosition();
+
+			pCameraParent->multiplyTransform(glm::translate(glm::mat4(1.0f), glm::vec3(trans.x, trans.y, trans.z)));
+
+			if (cameraParentPos.x < -8) {
+				pCameraParent->setPosition( glm::vec3(-8, cameraParentPos.y, cameraParentPos.z));
+			}
+			if (cameraParentPos.x > 8) {
+				pCameraParent->setPosition(glm::vec3(8, cameraParentPos.y, cameraParentPos.z));
+			}
+			if (cameraParentPos.z < -8 - 14.5f) {
+				pCameraParent->setPosition(glm::vec3(cameraParentPos.x, cameraParentPos.y, -8 - 14.5f));
+			}
+			if (cameraParentPos.z > 8 - 14.5f) {
+				pCameraParent->setPosition(glm::vec3(cameraParentPos.x, cameraParentPos.y, 8 - 14.5f));
+<<<<<<< HEAD
+			}*/
+=======
+			}
+>>>>>>> 322edc4317c2bb62eedb011d537c8fd21430e40f
+			
 		}
 		//-------------------------------------------------------------//
 

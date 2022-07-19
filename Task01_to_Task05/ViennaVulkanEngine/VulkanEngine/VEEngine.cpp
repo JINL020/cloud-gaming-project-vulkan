@@ -655,8 +655,7 @@ namespace ve
 		* This sets a flag to tell the main render loop to stop.
 		*
 		*/
-	void VEEngine::end()
-	{
+	void VEEngine::end(){
 		m_end_running = true;
 	}
 
@@ -666,7 +665,7 @@ namespace ve
 
 		//camera parent is used for translations
 		VESceneNode *cameraParent = getSceneManagerPointer()->createSceneNode("StandardCameraParent", getRoot(), 
-																			  glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 15.0f, -25.0f)));
+																			  glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 8.0f, -14.5f)));
 
 		//camera can only do yaw (parent y-axis) and pitch (local x-axis) rotations
 		VkExtent2D extent = getWindowPointer()->getExtent();

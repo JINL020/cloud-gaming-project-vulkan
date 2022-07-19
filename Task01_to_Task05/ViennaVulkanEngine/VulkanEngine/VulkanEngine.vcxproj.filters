@@ -212,6 +212,18 @@
     <ClInclude Include="EventListenerCockroach.h">
       <Filter>Header Files\MyCode</Filter>
     </ClInclude>
+    <ClInclude Include="UDPReceiveListener.h">
+      <Filter>Header Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPReceiver.h">
+      <Filter>Header Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="EventListenerMovement.h">
+      <Filter>Header Files\MyCode</Filter>
+    </ClInclude>
+    <ClInclude Include="key.h">
+      <Filter>Header Files\MyCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VEEngine.cpp">
@@ -395,6 +407,15 @@
       <Filter>Source Files\MyCode</Filter>
     </ClCompile>
     <ClCompile Include="EventListenerCockroach.cpp">
+      <Filter>Source Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPReceiver.cpp">
+      <Filter>Source Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPReceiveListener.cpp">
+      <Filter>Source Files\MyCode</Filter>
+    </ClCompile>
+    <ClCompile Include="EventListenerMovement.cpp">
       <Filter>Source Files\MyCode</Filter>
     </ClCompile>
   </ItemGroup>

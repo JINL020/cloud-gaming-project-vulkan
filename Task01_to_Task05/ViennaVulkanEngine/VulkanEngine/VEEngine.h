@@ -233,6 +233,10 @@ namespace ve
 			return m_rendererType == VE_RENDERER_TYPE_RAYTRACING_NV ||
 				m_rendererType == VE_RENDERER_TYPE_RAYTRACING_KHR;
 		}
+
+		bool isEnd() {
+			return m_end_running;
+		}
 	};
 
 } // namespace ve

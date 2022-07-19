@@ -147,16 +147,17 @@ int main() {
 
 	UDPReceive receiver;
 
-	//receiver.init(50000);
     receiver.init(8088);
 
-	while (true) {
+	int ret = 0;
+	do{
 		char buf[65000];
 		double ptime;
-		auto ret = receiver.receive(buf, sizeof buf, &ptime);
-		buf[ret] = '\0';
-		printf("Message: % s\n", buf);
-	}
+		ret = receiver.receive(buf, sizeof buf, &ptime);
+		printf("receiveed %i bytes\n", ret);
+	}while (ret != 0);
+
+	puts("end\n");
 
 	WSACleanup();
 }
