@@ -2,4 +2,11 @@
 /_Submissions
 /_Tutorials
 /_ViennaVulkanEngine-master
-/Task01_to_Task05/UPDClient_new
+
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile

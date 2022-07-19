@@ -1,0 +1,19 @@
+﻿  decoder.cpp
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\decoder.cpp(25,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  keyboardListener.cpp
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\keyboardListener.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\keyboardListener.cpp(34,32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\keyboardListener.cpp(39,32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\keyboardListener.cpp(44,32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\keyboardListener.cpp(49,32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\keyboardListener.cpp(57,30): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\keyboardListener.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  UDPSender.cpp
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\UDPSender.cpp(44,20): warning C4244: '=': conversion from 'SOCKET' to 'int', possible loss of data
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\UDPSender.cpp(96,9): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'char *'
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\UDPSender.cpp(96,9): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'char *'
+  UPDReceiver.cpp
+D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\UPD_Client\UPDReceiver.cpp(50,23): warning C4244: '=': conversion from 'SOCKET' to 'int', possible loss of data
+  Generating Code...
+  UPD_Client.vcxproj -> D:\2022SS\2022SS_CGA\Task01_to_Task05\UPDClient_new\x64\Debug\UPDClient.exe
